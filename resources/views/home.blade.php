@@ -1,9 +1,11 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FlavorFiesta - Food Delivery</title>
+  <title>OederEats - Food Delivery</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -59,6 +61,37 @@
     .cart-bump {
       animation: bump 300ms ease-out;
     }
+
+/*popular catogories */
+ .category-btn {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #333;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+  }
+  .category-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #ff3e3ee3 0%, #FF6B95 100%);
+    color: white;
+  }
+  .category-btn:hover img {
+    opacity: 0.8;
+  }
+
+
+
+
+
     @keyframes bump {
       0% { transform: scale(1); }
       10% { transform: scale(0.9); }
@@ -85,6 +118,78 @@
     .modal.active .modal-content {
       transform: translateY(0);
     }
+
+    /*footer part */
+    .footer {
+      background: #2f2f2f;
+      color: white;
+      padding: 50px 20px 20px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+
+    .footer h3 {
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .footer ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer ul li {
+      margin: 8px 0;
+      color: #ccc;
+    }
+
+    .footer ul li a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .footer ul li a:hover {
+      color: rgb(233, 74, 0);
+    }
+
+    .footer .social-icons a {
+      color: rgb(255, 255, 255);
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    .bottom-bar {
+      background: #444;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 30px;
+    }
+
+    .payment-icons img {
+      height: 30px;
+      display: ; /* Makes each image take full width and stack */
+      margin: 10px 0; /* Vertical margin only */
+    }
+
+    .app-buttons img {
+      width: 140px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .app-buttons img {
+        width: 100px;
+      }
+    }
+
+
   </style>
 </head>
 <body class="bg-gray-50">
@@ -103,17 +208,19 @@
           <option>Matale</option>
           <option>Use My Location</option>
         </select>
+
         <nav class="hidden md:flex space-x-6">
-          <a href="#" class="text-gray-700 hover:text-red-600 font-medium">Home</a>
-          <a href="#" class="text-gray-700 hover:text-red-600 font-medium">Restaurants</a>
-          <a href="#" class="text-gray-700 hover:text-red-600 font-medium">Deals</a>
-          <a href="#" class="text-gray-700 hover:text-red-600 font-medium">My Orders</a>
+          
+          <a href="{{ route('home') }}" class="text-gray-700 hover:text-red-600 font-medium">Home</a>
+          <a href="{{ route('restaurants') }}" class="text-gray-700 hover:text-red-600 font-medium">Restaurants</a>
+          <a href="#" class="text-gray-700 hover:text-red-600 font-medium"></a>
+          <a href="#" class="text-gray-700 hover:text-red-600 font-medium">About Us</a>
+          <a href="#" class="text-gray-700 hover:text-red-600 font-medium">Contact</a>
         </nav>
       </div>
       <div class="flex items-center space-x-4">
-        <a href="#" class="text-gray-700 hover:text-red-600 font-medium hidden md:block">Login</a>
-        <a href="#" class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition font-medium hidden md:block">Sign Up</a>
-
+        <a href="{{ route('login') }}" class="text-gray-700 hover:text-red-600 font-medium hidden md:block">Login</a>
+        <a href="{{ route('restaurants') }}" class="bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 transition font-medium hidden md:block">Sign Up</a>
         <div class="relative" id="cartIcon">
           <div class="cursor-pointer p-2 rounded-full hover:bg-gray-100 transition">
             <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +229,6 @@
             <span id="cartCount" class="cart-badge absolute -top-1 -right-1 bg-orange-500 rounded-full text-white w-5 h-5 text-xs font-bold flex justify-center items-center">0</span>
           </div>
         </div>
-
         <button class="md:hidden p-2 rounded-lg hover:bg-gray-100" id="mobileMenuButton">
           <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -132,7 +238,7 @@
     </div>
     
     <!-- Mobile Menu -->
-    <div class="md:hidden hidden bg-white shadow-lg" id="mobileMenu">
+    <!--<div class="md:hidden hidden bg-white shadow-lg" id="mobileMenu">
       <div class="px-4 py-2 space-y-2">
         <a href="#" class="block py-2 text-gray-700 hover:text-red-600 font-medium">Home</a>
         <a href="#" class="block py-2 text-gray-700 hover:text-red-600 font-medium">Restaurants</a>
@@ -141,9 +247,8 @@
         <a href="#" class="block py-2 text-gray-700 hover:text-red-600 font-medium">Login</a>
         <a href="#" class="block py-2 text-red-600 font-medium">Sign Up</a>
       </div>
-    </div>
+    </div>-->
   </header>
-
   <!-- Hero Section -->
   <section class="hero-section text-center text-white py-24">
     <div class="max-w-3xl mx-auto px-4">
@@ -156,39 +261,145 @@
     </div>
   </section>
 
+   
   <!-- Popular Categories -->
-  <section class="max-w-7xl mx-auto px-4 py-12">
-    <div class="flex justify-between items-center mb-8">
-      <h2 class="text-2xl font-bold text-gray-800">Popular Categories</h2>
-      <a href="#" class="text-red-600 hover:underline">View All</a>
-    </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-      <div class="category-card text-center">
-        <div class="text-3xl mb-2">🍔</div>
-        <p class="font-medium">Burgers</p>
-      </div>
-      <div class="category-card text-center">
-        <div class="text-3xl mb-2">🍕</div>
-        <p class="font-medium">Pizza</p>
-      </div>
-      <div class="category-card text-center">
-        <div class="text-3xl mb-2">🍛</div>
-        <p class="font-medium">Rice</p>
-      </div>
-      <div class="category-card text-center">
-        <div class="text-3xl mb-2">🍗</div>
-        <p class="font-medium">Chicken</p>
-      </div>
-      <div class="category-card text-center">
-        <div class="text-3xl mb-2">🍜</div>
-        <p class="font-medium">Noodles</p>
-      </div>
-      <div class="category-card text-center">
-        <div class="text-3xl mb-2">🍰</div>
-        <p class="font-medium">Desserts</p>
-      </div>
-    </div>
-  </section>
+<section class="max-w-7xl mx-auto px-4 py-12">
+  <div class="flex justify-between items-center mb-8">
+    <h2 class="text-2xl font-bold text-gray-800">Popular Categories</h2>
+    <button id="viewAllCategories" class="text-red-600 hover:underline">View All</button>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4" id="categoriesContainer">
+    <!-- Category buttons will be added by JavaScript -->
+  </div>
+</section>
+
+<script>
+  // Category data
+  const categories = [
+    {
+      id: 1,
+      name: "Burgers",
+      emoji: "🍔",
+      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'burgers') }}"
+    },
+    {
+      id: 2,
+      name: "Pizza",
+      emoji: "🍕",
+      image: "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'pizza') }}"
+    },
+    {
+      id: 3,
+      name: "Rice",
+      emoji: "🍛",
+      image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'rice') }}"
+    },
+    {
+      id: 4,
+      name: "Chicken",
+      emoji: "🍗",
+      image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'chicken') }}"
+    },
+    {
+      id: 5,
+      name: "Noodles",
+      emoji: "🍜",
+      image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'noodles') }}"
+    },
+    {
+      id: 6,
+      name: "Desserts",
+      emoji: "🍰",
+      image: "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'desserts') }}"
+    },
+    {
+      id: 7,
+      name: "Salads",
+      emoji: "🥗",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'salads') }}"
+    },
+    {
+      id: 8,
+      name: "Seafood",
+      emoji: "🦞",
+      image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'seafood') }}"
+    },
+    {
+      id: 9,
+      name: "Vegetarian",
+      emoji: "🥦",
+      image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'vegetarian') }}"
+    },
+    {
+      id: 10,
+      name: "Breakfast",
+      emoji: "🥞",
+      image: "https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'breakfast') }}"
+    },
+    {
+      id: 11,
+      name: "Sushi",
+      emoji: "🍣",
+      image: "https://unsplash.com/photos/sushi-on-white-ceramic-plate--1GEAA8q3wk",
+      link: "{{ route('category', 'sushi') }}"
+    },
+    {
+      id: 12,
+      name: "BBQ",
+      emoji: "🍖",
+      image: "https://images.unsplash.com/photo-1558030006-450675393462?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+      link: "{{ route('category', 'bbq') }}"
+    }
+  ];
+
+  const categoriesContainer = document.getElementById('categoriesContainer');
+  const viewAllCategories = document.getElementById('viewAllCategories');
+
+  // Render categories
+  function renderCategories(showAll = false) {
+    categoriesContainer.innerHTML = '';
+
+    const categoriesToShow = showAll ? categories : categories.slice(0, 6);
+
+    categoriesToShow.forEach(category => {
+      const categoryButton = document.createElement('button');
+      categoryButton.className = 'category-btn text-center w-full h-full';
+      categoryButton.innerHTML = `
+        <img src="${category.image}" alt="${category.name}" class="w-full h-24 object-cover rounded-t-lg">
+        <div class="p-2">
+          <div class="text-2xl mb-1">${category.emoji}</div>
+          <p class="font-medium">${category.name}</p>
+        </div>
+      `;
+      categoryButton.addEventListener('click', () => {
+        window.location.href = category.link;
+      });
+      categoriesContainer.appendChild(categoryButton);
+    });
+  }
+
+  viewAllCategories.addEventListener('click', () => {
+    renderCategories(true);
+    viewAllCategories.classList.add('hidden');
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCategories();
+  });
+</script>
+
+
+
 
   <!-- Special Offers -->
   <section class="bg-red-50 py-8">
@@ -205,7 +416,6 @@
       </div>
     </div>
   </section>
-
   <!-- Popular Restaurants -->
   <section class="max-w-7xl mx-auto px-4 py-12">
     <div class="flex justify-between items-center mb-8">
@@ -216,7 +426,6 @@
       <!-- Restaurant cards will be added by JavaScript -->
     </div>
   </section>
-
   <!-- Featured Foods -->
   <section class="bg-gray-100 py-12">
     <div class="max-w-7xl mx-auto px-4">
@@ -227,89 +436,76 @@
     </div>
   </section>
 
-  <!-- App Download -->
-  <section class="bg-gradient-to-r from-red-600 to-orange-500 text-white py-16">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center">
-      <div class="md:w-1/2 mb-8 md:mb-0">
-        <h2 class="text-3xl font-bold mb-4">Get the FlavorFiesta App</h2>
-        <p class="text-xl mb-6">Download our app for faster ordering and exclusive deals</p>
-        <div class="flex flex-col sm:flex-row gap-4">
-          <button class="bg-black text-white px-6 py-3 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-1.57 2.73-1.85 3.77-1.83 2.74.15 4.26 1.55 4.41 4.1-3.72.21-5.27 2.11-5.24 5.31 3.27.4 4.93-2.2 5.1-3.33-1.78-1.03-2.14-1.48-4.22-1.48 1.72-3.89 5.02-5.78 7.91-6.1.9-.1 3.46-.2 5.09 2.5-.14.08-3.2 1.83-3.18 5.45.03 4.03 3.13 5.33 3.23 5.38-.03.07-.45 1.54-1.52 3.06zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.2 2.58-2.34 4.5-3.74 4.25z"></path>
-            </svg>
-            App Store
-          </button>
-          <button class="bg-black text-white px-6 py-3 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"></path>
-            </svg>
-            Google Play
-          </button>
-        </div>
-      </div>
-      <div class="md:w-1/2 flex justify-center">
-        <img src="https://cdn.dribbble.com/users/1787323/screenshots/11324472/media/6a1e6c500c774d1b4e4ec6f5a26a04a1.png" alt="Mobile App" class="h-64 md:h-80">
-      </div>
-    </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-300 py-12">
-    <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="footer-container">
       <div>
-        <h3 class="text-2xl font-bold text-white mb-4">FlavorFiesta</h3>
-        <p class="mb-4">Delicious food delivered fast to your doorstep</p>
-        <div class="flex space-x-4">
-          <a href="#" class="text-white hover:text-red-500">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
-            </svg>
-          </a>
-          <a href="#" class="text-white hover:text-red-500">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.023.047 1.351.058 3.807.058h.468c2.456 0 2.784-.011 3.807-.058.975-.045 1.504-.207 1.857-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.047-1.023.058-1.351.058-3.807v-.468c0-2.456-.011-2.784-.058-3.807-.045-.975-.207-1.504-.344-1.857a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"></path>
-            </svg>
-          </a>
-          <a href="#" class="text-white hover:text-red-500">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-            </svg>
-          </a>
+        <h3>OrderEats</h3>
+        <p>Your favorite restaurants, delivered fast. OrderEats makes food delivery simple, reliable, and delicious.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
       <div>
-        <h4 class="text-lg font-semibold text-white mb-4">Company</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-white">About Us</a></li>
-          <li><a href="#" class="hover:text-white">Careers</a></li>
-          <li><a href="#" class="hover:text-white">Blog</a></li>
-          <li><a href="#" class="hover:text-white">Press</a></li>
+        <h3>Our Menus</h3>
+        <ul>
+          <li><a href="#"></a>Chicken Burger</li>
+          <li><a href="#">Brief Pizza</a></li>
+          <li><a href="#"></a>Fresh Vegetable</li>
+          <li><a href="#"></a>Sea Foods</li>
+          <li><a href="#"></a>Desserts</li>
+          <li><a href="#"></a>Cold Drinks</li>
+          <li><a href="#"></a>Discount</li>
         </ul>
       </div>
       <div>
-        <h4 class="text-lg font-semibold text-white mb-4">Help & Contact</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-white">Help Center</a></li>
-          <li><a href="#" class="hover:text-white">Contact Us</a></li>
-          <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-          <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+        <h3>Useful Links</h3>
+        <ul>
+          <li><a href="#"></a>About Us</li>
+          <li><a href="#"></a>Restaurant</li>
+          <!--<li><a href="#"></a>Our Chefs</li>
+          <li>Testimonials</li>
+          <li>Blogs</li>
+          <li>FAQs</li>
+          <li>Privacy Policy</li>-->
         </ul>
       </div>
       <div>
-        <h4 class="text-lg font-semibold text-white mb-4">Delivery Cities</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-white">Colombo</a></li>
-          <li><a href="#" class="hover:text-white">Kandy</a></li>
-          <li><a href="#" class="hover:text-white">Galle</a></li>
-          <li><a href="#" class="hover:text-white">Negombo</a></li>
+        <h3>Contact Us</h3>
+        <ul>
+            <li>📞 +94 77 123 4567</li>
+            <li>📞 +94 71 987 6543</li>
+            <li>🌐 www.ordereats.com</li>
         </ul>
+      </div>
+      <div>
+        <h3>Download App</h3>
+        <p>Save $5 with app & new user only</p>
+        <div class="app-buttons">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store">
+        </div>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto px-4 pt-8 mt-8 border-t border-gray-800 text-center">
-      <p>&copy; 2023 FlavorFiesta. All rights reserved.</p>
+    <div class="bottom-bar">
+      <p>©2025. All rights reserved by <strong>OrderEats</strong></p>
+      <div class="payment-icons">
+        <img src="https://img.icons8.com/color/48/000000/paypal.png" alt="paypal">
+        <img src="https://img.icons8.com/color/48/000000/visa.png" alt="visa">
+        <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="mastercard">
+        <img src="https://img.icons8.com/color/48/000000/discover.png" alt="discover">
+      </div>
     </div>
   </footer>
+   
+
+
+
+
 
   <!-- Cart Modal -->
   <div class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none" id="cartModal">
@@ -344,8 +540,7 @@
         </button>
       </div>
     </div>
-  </div>-->
-
+  </div>
   <script>
     // Restaurant data
     const restaurants = [
@@ -404,7 +599,6 @@
         tags: ["Chinese", "Noodles", "Asian"]
       }
     ];
-
     // Food items data
     const foods = [
       {
@@ -482,7 +676,6 @@
 ];
 // Cart data
 let cart = [];
-
 // DOM elements
 const restaurantsContainer = document.getElementById('restaurantsContainer');
 const foodsContainer = document.getElementById('foodsContainer');
@@ -497,7 +690,6 @@ const checkoutButton = document.getElementById('checkoutButton');
 const emptyCartMessage = document.getElementById('emptyCartMessage');
 const mobileMenuButton = document.getElementById('mobileMenuButton');
 const mobileMenu = document.getElementById('mobileMenu');
-
 // Render restaurants
 function renderRestaurants() {
   restaurantsContainer.innerHTML = '';
@@ -526,7 +718,6 @@ function renderRestaurants() {
     restaurantsContainer.appendChild(restaurantCard);
   });
 }
-
 // Render food items
 function renderFoods() {
   foodsContainer.innerHTML = '';
@@ -555,7 +746,6 @@ function renderFoods() {
     foodsContainer.appendChild(foodCard);
   });
 }
-
 // Update cart count
 function updateCartCount() {
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
@@ -569,7 +759,6 @@ function updateCartCount() {
     }, 300);
   }
 }
-
 // Update cart modal
 function updateCartModal() {
   const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
@@ -615,7 +804,6 @@ function updateCartModal() {
     checkoutButton.disabled = false;
   }
 }
-
 // Add to cart
 function addToCart(foodId) {
   const food = foods.find(item => item.id === foodId);
@@ -637,7 +825,6 @@ function addToCart(foodId) {
   updateCartCount();
   updateCartModal();
 }
-
 // Update cart item quantity
 function updateCartItem(foodId, action) {
   const itemIndex = cart.findIndex(item => item.id === foodId);
@@ -659,7 +846,6 @@ function updateCartItem(foodId, action) {
   updateCartCount();
   updateCartModal();
 }
-
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
   renderRestaurants();
@@ -698,7 +884,6 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileMenu.classList.toggle('hidden');
   });
 });
-
 // Close modal when clicking outside
 cartModal.addEventListener('click', (e) => {
   if (e.target === cartModal) {
@@ -706,6 +891,10 @@ cartModal.addEventListener('click', (e) => {
     document.body.style.overflow = '';
   }
 });
+
+//footer part 
+
+
 </script> 
 </body>
 </html>
